@@ -28,13 +28,16 @@ outputPath = "./output/"
 
 # MARK: Functions
 
-def setupDirectories():
-    # Only output matters at the moment.
-    target = outputPath
+def setup():
+    # Make sure things are good to go.
+    if not os.path.isfile(ffmpeg):
+        print("ffmpeg not found.")
+        exit()
+
     # Check to see if directory exists.
-    if not os.path.isdir(target):
+    if not os.path.isdir(outputPath):
         # If not create it.
-        os.makedirs(target)
+        os.makedirs(outputPath)
         
 def makePreview(input, output):
     if not os.path.isfile(output):
@@ -59,7 +62,7 @@ def makePreview(input, output):
 
 
 def main():
-  setupDirectories()
+  setup()
   
   filenames = []
   
