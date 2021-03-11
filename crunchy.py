@@ -62,20 +62,20 @@ def makePreview(input, output):
 
 
 def main():
-  setup()
-  
-  filenames = []
-  
-  textfiles = glob.glob("*list.txt")
-  
-  for textfile in textfiles:
-      with open(textfile) as f:
-        filenames.extend(f.read().splitlines())
-
-  for filename in filenames:
-    if filename == "\n":
-        print("Encountered newline.")
-        break
+    setup()
+    
+    filenames = []
+    
+    textfiles = glob.glob("*list.txt")
+    
+    for textfile in textfiles:
+        with open(textfile) as f:
+            filenames.extend(f.read().splitlines())
+            
+    for filename in filenames:
+        if filename == "\n":
+            print("Encountered newline.")
+            break
         
     # Make target input
     input = inputPath + filename
