@@ -28,6 +28,14 @@ outputPath = "./output/"
 
 # MARK: Functions
 
+def setupDirectories():
+    # Only output matters at the moment.
+    target = outputPath
+    # Check to see if directory exists.
+    if not os.path.isdir(target):
+        # If not create it.
+        os.makedirs(target)
+        
 def makePreview(input, output):
     if not os.path.isfile(output):
         execute = [
@@ -36,25 +44,26 @@ def makePreview(input, output):
             '-ss', '0:00:03', # Skip ahead to
             '-to', '0:00:13', # copy until
             '-filter:v',
-            'fps=15, crop=ih/3*4:ih, scale=320:240, format=yuv420p',
+            'fps=15, crop=ih/3*4:ih, scale=320:240, format=yuv420p', # filter chain
             '-an', # Do not extract audio
             f'{output}', # output filename
             '-y' # overwrite output if it exists
         ]
         try:
-            print(execute)
             subprocess.run(execute, check=True)
         except subprocess.CalledProcessError as e:
-            print("Early exit due to error.")
+            print("Early exit on file ", input , " due to error.")
             exit()
     else:
-        print("Warngng: ", output, " already exits.")
+        print("Warning: ", output, " already exits.")
 
 
 def main():
+  setupDirectories()
+  
   filenames = []
   
-  textfiles = glob.glob("filelist.txt")
+  textfiles = glob.glob("*list.txt")
   
   for textfile in textfiles:
       with open(textfile) as f:
