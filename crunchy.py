@@ -47,7 +47,7 @@ def makePreview(input, output):
             '-ss', '0:00:03', # Skip ahead to
             '-to', '0:00:13', # copy until
             '-filter:v',
-            'fps=15, crop=ih/3*4:ih, scale=320:240, format=yuv420p', # filter chain
+            'fps=15, crop=ih/3*4:ih, scale=320:240, format=yuv420p, eq=brightness=-0.3', # filter chain
             '-an', # Do not extract audio
             f'{output}', # output filename
             '-y' # overwrite output if it exists
