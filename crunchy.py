@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Name: Crunch Time
+Name: Crunchy Time
 Author: Cody Hill
 Date Created: March 10, 2021
 Last Modified: March 11, 2021
@@ -77,10 +77,10 @@ def main():
             print("Encountered newline.")
             break
         
-    # Make target input
+    # Make target input path
     input = inputPath + filename
 
-    # Make target output
+    # Make target output path
     pre, ext = os.path.splitext(filename)
     output = outputPath + pre + "-preview.mp4"
     pre, ext = os.path.splitext(input)
