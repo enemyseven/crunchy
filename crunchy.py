@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Name: Crunchy Time
 Author: Cody Hill
@@ -18,11 +19,9 @@ VERSION = '0.0.1'
 
 # MARK: Global Variables
 
-# Directories
+# Locations
 ffmpeg = "./ffmpeg"
 inputPath = "./input/"
-cachePath = "./cache/"
-commonPath = "./common/"
 outputPath = "./output/"
 
 # MARK: Functions
@@ -59,32 +58,43 @@ def makePreview(input, output):
     else:
         print("Warning: ", output, " already exits.")
 
+def getFilenames(directory):
+    files_in_directory = os.listdir(directory)
+    filtered_files = [file for file in files_in_directory if file.endswith(".mp4") or file.endswith(".mov")]
+    return filtered_files
 
 def main():
-    setup()
-    
-    filenames = []
-    
-    textfiles = glob.glob("*list.txt")
-    
-    for textfile in textfiles:
-        with open(textfile) as f:
-            filenames.extend(f.read().splitlines())
-            
-    for filename in filenames:
-        if filename == "\n":
-            print("Encountered newline.")
-            break
+  setup()
+  
+  filenames = []
+  
+  # Get files
+  getFilenames(inputPath)
+  
+  # Note start time
+  start = time.time()
+  
+  # Process files
+  for filename in filenames:
+    if filename == "\n":
+        print("Encountered newline.")
+        break
         
-    # Make target input path
+    # Make target input
     input = inputPath + filename
 
-    # Make target output path
+    # Make target output
     pre, ext = os.path.splitext(filename)
     output = outputPath + pre + "-preview.mp4"
     pre, ext = os.path.splitext(input)
     
     makePreview(input, output)
+    
+  # Output time spent
+  end = time.time()
+  totalTime = end - start
+  print("--- Complete ---")
+  print("Total time: " + str(totalTime))
 
 
 if __name__ == "__main__":
