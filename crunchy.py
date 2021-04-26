@@ -4,7 +4,7 @@
 Name: Crunchy Time
 Author: Cody Hill
 Date Created: March 10, 2021
-Last Modified: March 11, 2021
+Last Modified: April 26, 2021
 This Software is released under the MIT License:
 http://www.opensource.org/licenses/mit-license.html
 See LICENSE at root of project for more details.
@@ -15,7 +15,7 @@ import os
 import subprocess
 import glob
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 # MARK: Global Variables
 
@@ -45,7 +45,7 @@ def makePreview(input, output):
             '-ss', '0:00:03', # Skip ahead to
             '-to', '0:00:13', # copy until
             '-filter:v',
-            'fps=15, crop=ih/3*4:ih, scale=320:240, format=yuv420p, eq=brightness=-0.3', # filter chain
+            'fps=15, crop=ih/3*4:ih, scale=320:240, format=yuv420p, eq=brightness=-0.3:saturation=0.6', # filter chain
             '-an', # Do not extract audio
             f'{output}', # output filename
             '-y' # overwrite output if it exists
@@ -60,16 +60,14 @@ def makePreview(input, output):
 
 def getFilenames(directory):
     files_in_directory = os.listdir(directory)
-    filtered_files = [file for file in files_in_directory if file.endswith(".mp4") or file.endswith(".mov")]
+    filtered_files = [file for file in files_in_directory if file.endswith(".mp4")]
     return filtered_files
 
 def main():
   setup()
   
-  filenames = []
-  
   # Get files
-  getFilenames(inputPath)
+  filenames = getFilenames(inputPath)
   
   # Note start time
   start = time.time()
@@ -93,7 +91,7 @@ def main():
   # Output time spent
   end = time.time()
   totalTime = end - start
-  print("--- Complete ---")
+  print("\n\n--- Complete ---")
   print("Total time: " + str(totalTime))
 
 
