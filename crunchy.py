@@ -15,7 +15,7 @@ import os
 import subprocess
 import glob
 
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 
 # MARK: Global Variables
 
@@ -81,7 +81,8 @@ def makePreview(input, output):
             '-ss', '0:00:03', # Skip ahead to
             '-to', '0:00:13', # copy until
             '-filter:v',
-            'fps=15, crop=iw:iw/4*3, scale=320:240, format=yuv420p, eq=brightness=-0.3:saturation=0.6', # filter chain
+            #'fps=15, crop=iw:iw/4*3, scale=320:240, format=yuv420p, eq=brightness=-0.3:saturation=0.6', # filter chain
+            'fps=15, crop=iw:ih*0.65, scale=-1:240, pad=320:ih:(ow-iw)/2, format=yuv420p, eq=brightness=-0.3:saturation=0.6',
             '-an', # Do not extract audio
             f'{output}', # output filename
             '-y' # overwrite output if it exists
@@ -89,10 +90,8 @@ def makePreview(input, output):
         
         if isLandscape(input):
             execute = landscape
-            print(execute)
         else:
             execute = portrait
-            print(execute)
             
         try:
             subprocess.run(execute, check=True)
