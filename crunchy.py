@@ -15,12 +15,15 @@ import os
 import subprocess
 import glob
 
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 
 # MARK: Global Variables
 
-# Locations
+# Executables
 ffmpeg = "./ffmpeg"
+ffprobe = "./ffprobe"
+
+# Directories
 inputPath = "./input/"
 outputPath = "./output/"
 
@@ -36,10 +39,32 @@ def setup():
     if not os.path.isdir(outputPath):
         # If not create it.
         os.makedirs(outputPath)
-        
+
+def isLandscape(input):
+    execute = [
+            ffprobe,
+            '-v',
+            'error',
+            '-select_streams',
+            'v:0',
+            '-show_entries',
+            'stream=width,height',
+            '-of',
+            'csv=s=x:p=0',
+            f'{input}', # input filename
+    ]
+    result = subprocess.run(execute, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    # Get rid of binary encoding and trailing newline
+    resolution = str(result.stdout.decode('UTF-8')).rstrip()
+    width, height = str(resolution).split('x')
+    if int(width) > int(height):
+        return True
+    else:
+        return False
+    
 def makePreview(input, output):
     if not os.path.isfile(output):
-        execute = [
+        landscape = [
             ffmpeg,
             '-i', input, # Input filename
             '-ss', '0:00:03', # Skip ahead to
@@ -50,6 +75,25 @@ def makePreview(input, output):
             f'{output}', # output filename
             '-y' # overwrite output if it exists
         ]
+        portrait = [
+            ffmpeg,
+            '-i', input, # Input filename
+            '-ss', '0:00:03', # Skip ahead to
+            '-to', '0:00:13', # copy until
+            '-filter:v',
+            'fps=15, crop=iw:iw/4*3, scale=320:240, format=yuv420p, eq=brightness=-0.3:saturation=0.6', # filter chain
+            '-an', # Do not extract audio
+            f'{output}', # output filename
+            '-y' # overwrite output if it exists
+        ]
+        
+        if isLandscape(input):
+            execute = landscape
+            print(execute)
+        else:
+            execute = portrait
+            print(execute)
+            
         try:
             subprocess.run(execute, check=True)
         except subprocess.CalledProcessError as e:
