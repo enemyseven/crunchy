@@ -4,7 +4,7 @@
 Name: Crunchy Time
 Author: Cody Hill
 Date Created: March 10, 2021
-Last Modified: April 26, 2021
+Last Modified: April 28, 2021
 This Software is released under the MIT License:
 http://www.opensource.org/licenses/mit-license.html
 See LICENSE at root of project for more details.
@@ -15,7 +15,7 @@ import os
 import subprocess
 import glob
 
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 
 # MARK: Global Variables
 
@@ -32,7 +32,11 @@ outputPath = "./output/"
 def setup():
     # Make sure things are good to go.
     if not os.path.isfile(ffmpeg):
-        print("ffmpeg not found.")
+        print("ffmpeg required, but not found.")
+        exit()
+        
+    if not os.path.isfile(ffprobe):
+        print("ffprobe required, but not found")
         exit()
 
     # Check to see if directory exists.
