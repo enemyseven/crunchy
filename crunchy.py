@@ -41,6 +41,7 @@ def setup():
 
     # Check to see if directory exists.
     if not os.path.isdir(outputPath):
+        print("Output path not found. Creating...")
         # If not create it.
         os.makedirs(outputPath)
 
@@ -116,6 +117,7 @@ def main():
   # Get files
   filenames = getFilenames(inputPath)
   
+  print(-- Starting --\n"\n)
   # Note start time
   start = time.time()
   
