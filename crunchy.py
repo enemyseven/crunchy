@@ -4,7 +4,7 @@
 Name: Crunchy Time
 Author: Cody Hill
 Date Created: March 10, 2021
-Last Modified: April 26, 2021
+Last Modified: May 10, 2021
 This Software is released under the MIT License:
 http://www.opensource.org/licenses/mit-license.html
 See LICENSE at root of project for more details.
@@ -15,7 +15,7 @@ import os
 import subprocess
 import glob
 
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 
 # MARK: Global Variables
 
@@ -24,7 +24,7 @@ ffmpeg = "./ffmpeg"
 ffprobe = "./ffprobe"
 
 # Directories
-inputPath = "./mp4/"
+inputPath = "./input/"
 outputPath = "./output/"
 
 # MARK: Functions
