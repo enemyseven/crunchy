@@ -32,10 +32,16 @@ outputPath = "./output/"
 def setup():
     # Make sure things are good to go.
     if not os.path.isfile(ffmpeg):
-        print("ffmpeg not found.")
+        print("Error:\tffmpeg not found.")
         exit()
 
-    # Check to see if directory exists.
+    # Check to see if input directory exists.
+    if not os.path.isdir(inputPath):
+        # If not exit...
+        print("Error:\tInput directory not found.")
+        exit()
+        
+    # Check to see if output directory exists.
     if not os.path.isdir(outputPath):
         # If not create it.
         os.makedirs(outputPath)
